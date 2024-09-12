@@ -15,6 +15,9 @@
 		2E1EF1B22C93839A0087E32F /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 2E1EF1B12C93839A0087E32F /* Base */; };
 		2E1EF1B42C93839B0087E32F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E1EF1B32C93839B0087E32F /* Assets.xcassets */; };
 		2E1EF1B72C93839B0087E32F /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 2E1EF1B62C93839B0087E32F /* Base */; };
+		2E8703962C938DCC00574206 /* PlayerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8703952C938DCC00574206 /* PlayerNode.swift */; };
+		2E8703982C938DEA00574206 /* OrbsNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8703972C938DEA00574206 /* OrbsNode.swift */; };
+		2E87039A2C938E0F00574206 /* OrbsNodesExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8703992C938E0F00574206 /* OrbsNodesExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +30,9 @@
 		2E1EF1B12C93839A0087E32F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2E1EF1B32C93839B0087E32F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2E1EF1B62C93839B0087E32F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		2E8703952C938DCC00574206 /* PlayerNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerNode.swift; sourceTree = "<group>"; };
+		2E8703972C938DEA00574206 /* OrbsNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrbsNode.swift; sourceTree = "<group>"; };
+		2E8703992C938E0F00574206 /* OrbsNodesExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrbsNodesExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +65,9 @@
 		2E1EF1A52C93839A0087E32F /* Spacers */ = {
 			isa = PBXGroup;
 			children = (
+				2E8703942C938DA800574206 /* Game */,
+				2E8703932C938DA300574206 /* Player */,
+				2E8703922C938D9900574206 /* Orbs */,
 				2E1EF1A62C93839A0087E32F /* AppDelegate.swift */,
 				2E1EF1A82C93839A0087E32F /* GameScene.sks */,
 				2E1EF1AA2C93839A0087E32F /* Actions.sks */,
@@ -69,6 +78,30 @@
 				2E1EF1B52C93839B0087E32F /* LaunchScreen.storyboard */,
 			);
 			path = Spacers;
+			sourceTree = "<group>";
+		};
+		2E8703922C938D9900574206 /* Orbs */ = {
+			isa = PBXGroup;
+			children = (
+				2E8703972C938DEA00574206 /* OrbsNode.swift */,
+				2E8703992C938E0F00574206 /* OrbsNodesExtensions.swift */,
+			);
+			path = Orbs;
+			sourceTree = "<group>";
+		};
+		2E8703932C938DA300574206 /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				2E8703952C938DCC00574206 /* PlayerNode.swift */,
+			);
+			path = Player;
+			sourceTree = "<group>";
+		};
+		2E8703942C938DA800574206 /* Game */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Game;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -145,7 +178,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E1EF1AD2C93839A0087E32F /* GameScene.swift in Sources */,
+				2E8703982C938DEA00574206 /* OrbsNode.swift in Sources */,
 				2E1EF1AF2C93839A0087E32F /* GameViewController.swift in Sources */,
+				2E87039A2C938E0F00574206 /* OrbsNodesExtensions.swift in Sources */,
+				2E8703962C938DCC00574206 /* PlayerNode.swift in Sources */,
 				2E1EF1A72C93839A0087E32F /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

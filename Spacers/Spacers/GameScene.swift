@@ -1,109 +1,89 @@
-//
-//  GameScene.swift
-//  Spacers
-//
-//  Created by Sherif Yasser on 12.09.24.
-//
-
 import SpriteKit
-import GameplayKit
 
 class GameScene: SKScene {
     
-    var entities = [GKEntity]()
-    var graphs = [String : GKGraph]()
+    // MARK: - Properties
+    private var playerSquare: PlayerNode!
+    private var orbs: [OrbNode] = []
     
-    private var lastUpdateTime : TimeInterval = 0
-    private var label : SKLabelNode?
-    private var spinnyNode : SKShapeNode?
-    
-    override func sceneDidLoad() {
+    var orbSpeed: CGFloat = 1.0
+    var orbDistance: CGFloat = 100.0
+    var numberOfOrbs: Int = 1
 
-        self.lastUpdateTime = 0
-        
-        // Get label node from scene and store it for use later
-        self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
-        if let label = self.label {
-            label.alpha = 0.0
-            label.run(SKAction.fadeIn(withDuration: 2.0))
-        }
-        
-        // Create shape node to use during mouse interaction
-        let w = (self.size.width + self.size.height) * 0.05
-        self.spinnyNode = SKShapeNode.init(rectOf: CGSize.init(width: w, height: w), cornerRadius: w * 0.3)
-        
-        if let spinnyNode = self.spinnyNode {
-            spinnyNode.lineWidth = 2.5
-            
-            spinnyNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 1)))
-            spinnyNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),
-                                              SKAction.fadeOut(withDuration: 0.5),
-                                              SKAction.removeFromParent()]))
-        }
+    // MARK: - Scene Lifecycle
+    override func didMove(to view: SKView) {
+        setupPlayerSquare()
+        setupOrbs()
     }
     
-    
-    func touchDown(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.green
-            self.addChild(n)
-        }
+    // MARK: - Setup Methods
+    private func setupPlayerSquare() {
+        playerSquare = PlayerNode(color: .blue, size: CGSize(width: 50, height: 50))
+        playerSquare.position = CGPoint(x: frame.midX, y: frame.midY)
+        playerSquare.zPosition = 1
+        addChild(playerSquare)
     }
     
-    func touchMoved(toPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.blue
-            self.addChild(n)
+    private func setupOrbs() {
+        removeExistingOrbs()
+        createOrbs()
+        runOrbOrbitAction()
+    }
+    
+    // MARK: - Orb Management
+    private func createOrbs() {
+        for i in 0..<numberOfOrbs {
+            let orb = OrbNode(color: .red, size: CGSize(width: 30, height: 30))
+            positionOrb(orb, atIndex: i)
+            orbs.append(orb)
+            addChild(orb)
+            orb.runRotationAction(duration: 1.0)
         }
     }
     
-    func touchUp(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.red
-            self.addChild(n)
+    private func positionOrb(_ orb: OrbNode, atIndex index: Int) {
+        let angle = CGFloat(index) * (2 * CGFloat.pi / CGFloat(numberOfOrbs))
+        let x = frame.midX + orbDistance * cos(angle)
+        let y = frame.midY + orbDistance * sin(angle)
+        orb.position = CGPoint(x: x, y: y)
+    }
+    
+    private func removeExistingOrbs() {
+        for orb in orbs {
+            orb.removeFromParent()
+        }
+        orbs.removeAll()
+    }
+    
+    private func runOrbOrbitAction() {
+        let rotationAction = SKAction.customAction(withDuration: TimeInterval(orbSpeed)) { [weak self] node, elapsedTime in
+            guard let self = self else { return }
+            self.updateOrbPositions(elapsedTime: elapsedTime)
+        }
+        let repeatAction = SKAction.repeatForever(rotationAction)
+        run(repeatAction)
+    }
+    
+    private func updateOrbPositions(elapsedTime: TimeInterval) {
+        let angle = CGFloat(elapsedTime) * (2 * CGFloat.pi / CGFloat(orbSpeed))
+        for (index, orb) in orbs.enumerated() {
+            let currentAngle = CGFloat(index) * (2 * CGFloat.pi / CGFloat(numberOfOrbs)) + angle
+            let x = frame.midX + orbDistance * cos(currentAngle)
+            let y = frame.midY + orbDistance * sin(currentAngle)
+            orb.position = CGPoint(x: x, y: y)
         }
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let label = self.label {
-            label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
-        }
-        
-        for t in touches { self.touchDown(atPoint: t.location(in: self)) }
+    // MARK: - Public Methods
+    func changePlayerSquareShape(to size: CGSize, color: UIColor) {
+        playerSquare.size = size
+        playerSquare.color = color
     }
     
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
-    }
-    
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
-    }
-    
-    
-    override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
-        
-        // Initialize _lastUpdateTime if it has not already been
-        if (self.lastUpdateTime == 0) {
-            self.lastUpdateTime = currentTime
-        }
-        
-        // Calculate time since last update
-        let dt = currentTime - self.lastUpdateTime
-        
-        // Update entities
-        for entity in self.entities {
-            entity.update(deltaTime: dt)
-        }
-        
-        self.lastUpdateTime = currentTime
+    func changeOrbProperties(numberOfOrbs: Int, speed: CGFloat, distance: CGFloat) {
+        self.numberOfOrbs = numberOfOrbs
+        self.orbSpeed = speed
+        self.orbDistance = distance
+        setupOrbs()
     }
 }
