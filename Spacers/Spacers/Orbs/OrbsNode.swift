@@ -10,5 +10,3 @@ import SpriteKit
 class OrbNode: SKSpriteNode {
     // Custom properties or methods for the orbs
 }
-
-

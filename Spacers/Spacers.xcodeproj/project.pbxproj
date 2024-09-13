@@ -18,6 +18,7 @@
 		2E8703962C938DCC00574206 /* PlayerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8703952C938DCC00574206 /* PlayerNode.swift */; };
 		2E8703982C938DEA00574206 /* OrbsNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8703972C938DEA00574206 /* OrbsNode.swift */; };
 		2E87039A2C938E0F00574206 /* OrbsNodesExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8703992C938E0F00574206 /* OrbsNodesExtensions.swift */; };
+		2EBF4B002C94A4EB00ABCA0A /* EnemyNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBF4AFF2C94A4EB00ABCA0A /* EnemyNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		2E8703952C938DCC00574206 /* PlayerNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerNode.swift; sourceTree = "<group>"; };
 		2E8703972C938DEA00574206 /* OrbsNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrbsNode.swift; sourceTree = "<group>"; };
 		2E8703992C938E0F00574206 /* OrbsNodesExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrbsNodesExtensions.swift; sourceTree = "<group>"; };
+		2EBF4AFF2C94A4EB00ABCA0A /* EnemyNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemyNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +67,7 @@
 		2E1EF1A52C93839A0087E32F /* Spacers */ = {
 			isa = PBXGroup;
 			children = (
+				2EBF4AFC2C94A46F00ABCA0A /* Enemies */,
 				2E8703942C938DA800574206 /* Game */,
 				2E8703932C938DA300574206 /* Player */,
 				2E8703922C938D9900574206 /* Orbs */,
@@ -102,6 +105,14 @@
 			children = (
 			);
 			path = Game;
+			sourceTree = "<group>";
+		};
+		2EBF4AFC2C94A46F00ABCA0A /* Enemies */ = {
+			isa = PBXGroup;
+			children = (
+				2EBF4AFF2C94A4EB00ABCA0A /* EnemyNode.swift */,
+			);
+			path = Enemies;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -178,6 +189,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E1EF1AD2C93839A0087E32F /* GameScene.swift in Sources */,
+				2EBF4B002C94A4EB00ABCA0A /* EnemyNode.swift in Sources */,
 				2E8703982C938DEA00574206 /* OrbsNode.swift in Sources */,
 				2E1EF1AF2C93839A0087E32F /* GameViewController.swift in Sources */,
 				2E87039A2C938E0F00574206 /* OrbsNodesExtensions.swift in Sources */,

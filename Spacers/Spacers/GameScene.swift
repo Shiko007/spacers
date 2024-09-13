@@ -3,42 +3,36 @@ import SpriteKit
 class GameScene: SKScene {
     
     // MARK: - Properties
-    private var playerSquare: PlayerNode!
+    private var playerNode: PlayerNode!
     private var orbs: [OrbNode] = []
     
     var orbSpeed: CGFloat = 1.0
     var orbDistance: CGFloat = 100.0
-    var numberOfOrbs: Int = 1
-
+    var numberOfOrbs: Int = 0  // Number of orbs starts at 0
+    
     // MARK: - Scene Lifecycle
     override func didMove(to view: SKView) {
-        setupPlayerSquare()
-        setupOrbs()
+        setupPlayerNode()
+        // No orbs are created initially
     }
     
     // MARK: - Setup Methods
-    private func setupPlayerSquare() {
-        playerSquare = PlayerNode(color: .blue, size: CGSize(width: 50, height: 50))
-        playerSquare.position = CGPoint(x: frame.midX, y: frame.midY)
-        playerSquare.zPosition = 1
-        addChild(playerSquare)
-    }
-    
-    private func setupOrbs() {
-        removeExistingOrbs()
-        createOrbs()
-        runOrbOrbitAction()
+    private func setupPlayerNode() {
+        playerNode = PlayerNode(color: .blue, size: CGSize(width: 50, height: 50))
+        playerNode.position = CGPoint(x: frame.midX, y: frame.midY)
+        playerNode.zPosition = 1
+        addChild(playerNode)
     }
     
     // MARK: - Orb Management
-    private func createOrbs() {
-        for i in 0..<numberOfOrbs {
-            let orb = OrbNode(color: .red, size: CGSize(width: 30, height: 30))
-            positionOrb(orb, atIndex: i)
-            orbs.append(orb)
-            addChild(orb)
-            orb.runRotationAction(duration: 1.0)
-        }
+    private func createOrb() {
+        numberOfOrbs += 1 // Increment the number of orbs
+        let orb = OrbNode(color: .red, size: CGSize(width: 30, height: 30))
+        positionOrb(orb, atIndex: numberOfOrbs - 1)
+        orbs.append(orb)
+        addChild(orb)
+        orb.runRotationAction(duration: 1.0) // Orbs rotate around themselves at constant speed
+        runOrbOrbitAction()
     }
     
     private func positionOrb(_ orb: OrbNode, atIndex index: Int) {
@@ -46,13 +40,6 @@ class GameScene: SKScene {
         let x = frame.midX + orbDistance * cos(angle)
         let y = frame.midY + orbDistance * sin(angle)
         orb.position = CGPoint(x: x, y: y)
-    }
-    
-    private func removeExistingOrbs() {
-        for orb in orbs {
-            orb.removeFromParent()
-        }
-        orbs.removeAll()
     }
     
     private func runOrbOrbitAction() {
@@ -74,16 +61,20 @@ class GameScene: SKScene {
         }
     }
     
-    // MARK: - Public Methods
-    func changePlayerSquareShape(to size: CGSize, color: UIColor) {
-        playerSquare.size = size
-        playerSquare.color = color
+    // MARK: - Touch Handling
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        createOrb()  // Add a new orb with each touch
     }
     
-    func changeOrbProperties(numberOfOrbs: Int, speed: CGFloat, distance: CGFloat) {
-        self.numberOfOrbs = numberOfOrbs
+    // MARK: - Public Methods
+    func changePlayerNodeShape(to size: CGSize, color: UIColor) {
+        playerNode.size = size
+        playerNode.color = color
+    }
+    
+    func changeOrbProperties(speed: CGFloat, distance: CGFloat) {
         self.orbSpeed = speed
         self.orbDistance = distance
-        setupOrbs()
+        updateOrbPositions(elapsedTime: 0)  // Update the positions of all orbs based on new properties
     }
 }
